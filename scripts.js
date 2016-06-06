@@ -3,7 +3,7 @@ function circle(x, y, r) // класс задающий круг
   this.x = x; // координата х
   this.y = y; // координата у
   this.r = r; // радиус
-  this.draw = function(color, globalAlpha) // метод рисующий круг
+  this.draw = function (color, globalAlpha) // метод рисующий круг
   {
     context.globalAlpha = globalAlpha; // "прозрачность"
     context.fillStyle = color; // цвет заливки
@@ -18,7 +18,7 @@ function rect(x, y, width, height) // класс задающий прямоуг
   this.y = y; // координата у
   this.width = width; // ширина
   this.height = height; // высота
-  this.draw = function(color, globalAlpha) // функция рисует прямоугольник согласно заданным параметрам
+  this.draw = function (color, globalAlpha) // функция рисует прямоугольник согласно заданным параметрам
   {
     context.globalAlpha = globalAlpha;
     context.fillStyle = color;
@@ -27,15 +27,34 @@ function rect(x, y, width, height) // класс задающий прямоуг
 }
 function update() // изменения координат которые нужно произвести
 {
-  if (ball.y - ball.r < 0 || ball.y + ball.r > 320) // соприкосновение с "полом" и "потолком" холста
+  $('html').keydown(function(e){
+    if (e.which == 37) {
+      vY = -5;
+      vX= -3;
+    }
+    if (e.which == 39) {
+      vY = -5;
+      vX=3;
+    }
+  });
+/*  if (ball.y - ball.r < 0 || ball.y + ball.r > 320) // соприкосновение с "полом" и "потолком" холста
   {
     vY = -vY;
   }
   if (ball.x - ball.r < 0 || ball.x + ball.r > 480) // соприкосновение с левой и правй "стенкой" холста
   {
     vX = -vX;
-  }
+  }*/
   // приращение координат
+  if (vY != 1) {
+    vY+=0.5;
+  }
+  if (vX > 0) {
+    vX--;
+  }
+  if (vX < 0) {
+    vX++;
+  }
   ball.x += vX;
   ball.y += vY;
 }
@@ -48,9 +67,9 @@ function draw() // рисуем на холсте
 function init() // Инициализация переменных
 {
   game = new rect(0, 0, 480, 320); // прямоугольник закрашивающий фон
-  ball = new circle(game.width/2, game.height/2, 24); // шар
-  vX = 5; // скорость шара по оси х
-  vY = 5; // скорость шара по оси у
+  ball = new circle(game.width / 2, game.height / 2, 24); // шар
+  vX = 0; // скорость шара по оси х
+  vY = 1; // скорость шара по оси у
   var canvas = document.getElementById("example");
   canvas.width = game.width; // ширина холста
   canvas.height = game.height; // высота холста
